@@ -1,3 +1,4 @@
 flask ==  0.10.1
 Flask-Cache
 virtualenv >= 13.1.2
+pyclamd
