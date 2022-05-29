@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, send_from_
 from werkzeug import secure_filename
 from flask import Markup
 import threading
+import pyclamd
 from flask.ext.cache import Cache
 
 # Initialize the Flask application
@@ -19,6 +20,18 @@ from conf import config
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in config['ALLOWED_EXTENSIONS']
+
+# Check if file is malicious
+def is_malicious(filename):
+   try:
+      clamd = pyclamd.ClamdUnixSocket(config["CLAMAV_SOCKET"])
+      result = clamd.scan_file(filename)
+      if result:
+         return True
+      else:
+         return False
+   except:
+      return False
 
 # STATIC AND TEMPLATES
 @app.route('/')
@@ -159,8 +172,12 @@ def robots():
 def file():
     # Get the name of the uploaded file
     file = request.files['file']
-    # Check if the file is one of the allowed types/extensions
-    if file and allowed_file(file.filename):
+    # Run antivirus scanning if enabled
+    if config["CLAMAV_SCAN"]:
+      if is_malicious(file.filename):
+         return render_template('error.html', page=config["SITE_DATA"], error="Malicious file detected")
+    # Check if the file is one of the allowed types/extensions and not malicious
+      if file and allowed_file(file.filename):
         # Make the filename safe, remove unsupported chars
         filename = secure_filename(file.filename)
         # Move the file form the temporal folder to

@@ -21,6 +21,12 @@ config['ALLOWED_EXTENSIONS'] = set(['ass', 'odt', 'docx', 'doc', 'css', 'zip', '
 # Threading with just Python, use Gunicorn or uWSGI for multi-threading.
 config["THREADED"] = True
 
+# ClamAV socket path.
+config["CLAMAV_SOCKET"] = "/var/run/clamav/clamd.ctl"
+
+# ClamAV setting, set to true if want to enable antivirus scanning.
+config["CLAMAV_SCAN"] = False
+
 # Site info displayed to the user.
 config["SITE_DATA"] = {
   "title": "Upflask"
