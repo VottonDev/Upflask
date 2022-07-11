@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import logging
 import os
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, abort
 from werkzeug import secure_filename
@@ -30,7 +31,8 @@ def is_malicious(filename):
          return True
       else:
          return False
-   except Exception as e:
+   except Exception as e:  
+      logging.exception(e)
       raise e
 
 help_page = "upload.html"
