@@ -29,9 +29,8 @@ cache = Cache(app, config={"CACHE_TYPE": "simple"})
 
 
 def allowed_file(filename):
-    return (
-        "." in filename and filename.rsplit(".", 1)[1] in config["ALLOWED_EXTENSIONS"]
-    )
+    return ("." in filename
+            and filename.rsplit(".", 1)[1] in config["ALLOWED_EXTENSIONS"])
 
 
 # Check if file is malicious
@@ -233,9 +232,9 @@ def file():
     # Run antivirus scanning if enabled
     if config["CLAMAV_SCAN"]:
         if is_malicious(file.filename):
-            return render_template(
-                "error.html", page=config["SITE_DATA"], error="Malicious file detected"
-            )
+            return render_template("error.html",
+                                   page=config["SITE_DATA"],
+                                   error="Malicious file detected")
         # Check if the file is one of the allowed types/extensions and not malicious
         if file and allowed_file(file.filename):
             # Make the filename safe, remove unsupported chars
@@ -260,9 +259,10 @@ def uploaded_file(filename):
 
 
 def error_page(error, code):
-    return render_template(
-        "error.html", page=config["SITE_DATA"], error=error, code=code
-    )
+    return render_template("error.html",
+                           page=config["SITE_DATA"],
+                           error=error,
+                           code=code)
 
 
 @app.errorhandler(404)
@@ -282,7 +282,8 @@ def no_permission(e):
 
 @app.errorhandler(413)
 def too_big(e):
-    return error_page(error="Did you even check the Terms dude?", code=413), 413
+    return error_page(error="Did you even check the Terms dude?",
+                      code=413), 413
 
 
 # Start app
