@@ -1,21 +1,15 @@
 #!/usr/bin/env python3
-from conf import config
 import logging
 import os
-from flask import (
-    Flask,
-    render_template,
-    request,
-    redirect,
-    url_for,
-    send_from_directory,
-    abort,
-)
-from werkzeug import secure_filename
-from flask import Markup
 import threading
+
 import pyclamd
+from flask import (Flask, Markup, abort, redirect, render_template, request,
+                   send_from_directory, url_for)
 from flask.ext.cache import Cache
+from werkzeug import secure_filename
+
+from conf import config
 
 # Initialize the Flask application
 app = Flask(__name__)
