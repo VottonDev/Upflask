@@ -4,8 +4,14 @@ import os
 import threading
 
 import pyclamd
-from flask import (Flask, Markup, abort, redirect, render_template, request,
-                   send_from_directory, url_for)
+from flask import abort
+from flask import Flask
+from flask import Markup
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import send_from_directory
+from flask import url_for
 from flask.ext.cache import Cache
 from werkzeug import secure_filename
 
