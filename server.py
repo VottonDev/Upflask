@@ -30,8 +30,10 @@ def is_malicious(filename):
          return True
       else:
          return False
-   except:
-      return False
+   except Exception as e:
+      raise e
+
+help_page = "upload.html"
 
 # STATIC AND TEMPLATES
 @app.route('/')
@@ -156,11 +158,11 @@ def sr():
 
 @app.route('/index.html')
 def html():
-   return render_template('upload.html', page=config["SITE_DATA"])
+   return render_template(help_page, page=config["SITE_DATA"])
 
 @app.route('/index.php')
 def php():
-   return render_template('upload.html', page=config["SITE_DATA"])
+   return render_template(help_page, page=config["SITE_DATA"])
 
 # Robots
 @app.route('/robots.txt')
